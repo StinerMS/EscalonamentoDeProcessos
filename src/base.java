@@ -6,13 +6,11 @@ public class base {
 
     static int MAXIMO_TEMPO_EXECUCAO = 65535;
 
-    static int n_processos = 3;
+    static int n_processos = 4;
     int[] id = new int[n_processos];
 
 
     public static void main(String[] args) {
-
-
 
         int[] tempo_execucao = new int[n_processos];
         int[] tempo_chegada = new int[n_processos];
@@ -32,7 +30,8 @@ public class base {
         int alg;
 
         while(true) {
-            System.out.print("Escolha o argoritmo?: [1=FCFS 2=SJF Preemptivo 3=SJF Não Preemptivo  4=Prioridade Preemptivo 5=Prioridade Não Preemptivo  6=Round_Robin  7=Imprime lista de processos 8=Popular processos novamente 9=Sair]: ");
+
+            System.out.print("\nEscolha o argoritmo?: [1=FCFS 2=SJF Preemptivo 3=SJF Não Preemptivo  4=Prioridade Preemptivo 5=Prioridade Não Preemptivo  6=Round_Robin  7=Imprime lista de processos 8=Popular processos novamente 9=Sair]: ");
             alg =  teclado.nextInt();
 
 
@@ -122,9 +121,28 @@ public class base {
         int[] tempo_restante = restante.clone();
         int[] tempo_chegada = chegada.clone();
 
-        //implementar código do FCFS
-        //...
-        //
+        // implementando
+
+        int time = 0;
+        int processoEmExecucao = 0;
+
+        while(true){
+            System.out.println("tempo[" + time +
+                    "] processo[ " + processoEmExecucao +
+                    "] restante: "
+                    + tempo_restante[processoEmExecucao]);
+
+            time++;
+            if(tempo_restante[processoEmExecucao] == 1){
+                if(processoEmExecucao >= n_processos -1){
+                    break;
+                }else{
+                    processoEmExecucao++;
+                }
+            }else{
+                tempo_restante[processoEmExecucao]--;
+            }
+        }
 
         imprime_stats(tempo_espera);
     }
