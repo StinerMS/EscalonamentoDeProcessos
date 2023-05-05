@@ -31,7 +31,7 @@ public class base {
 
         while(true) {
 
-            System.out.print("\nEscolha o argoritmo?: [1=FCFS 2=SJF Preemptivo 3=SJF Não Preemptivo  4=Prioridade Preemptivo 5=Prioridade Não Preemptivo  6=Round_Robin  7=Imprime lista de processos 8=Popular processos novamente 9=Sair]: ");
+            System.out.print("\nEscolha o argoritmo?: \n[1=FCFS \n2=SJF Preemptivo \n3=SJF Não Preemptivo  4=Prioridade Preemptivo 5=Prioridade Não Preemptivo  6=Round_Robin  7=Imprime lista de processos 8=Popular processos novamente 9=Sair]: ");
             alg =  teclado.nextInt();
 
 
@@ -65,7 +65,6 @@ public class base {
             }
             else if (alg == 9) {
                 break;
-
             }
         }
 
@@ -111,8 +110,11 @@ public class base {
 
     public static void imprime_stats (int[] espera) {
         int[] tempo_espera = espera.clone();
-        //Implementar o calculo e impressão de estatisticas
-
+        int tempoTotal = 0;
+        for(int i = 0; i < n_processos; i++){
+            tempoTotal += tempo_espera[i];
+        }
+        System.out.println("Tempo total: " + tempoTotal + "Média de tempo: " + (tempoTotal / n_processos));
     }
 
     public static void FCFS(int[] execucao, int[] espera, int[] restante, int[] chegada){
@@ -123,16 +125,17 @@ public class base {
 
         // implementando
 
-        int time = 0;
+        int tempo = 0;
         int processoEmExecucao = 0;
 
+
         while(true){
-            System.out.println("tempo[" + time +
+            System.out.println("tempo[" + tempo +
                     "] processo[ " + processoEmExecucao +
                     "] restante: "
                     + tempo_restante[processoEmExecucao]);
-
-            time++;
+            if(tempo_restante[processoEmExecucao] == tempo_execucao[processoEmExecucao])
+                tempo_espera[processoEmExecucao] = tempo;
             if(tempo_restante[processoEmExecucao] == 1){
                 if(processoEmExecucao >= n_processos -1){
                     break;
@@ -143,7 +146,6 @@ public class base {
                 tempo_restante[processoEmExecucao]--;
             }
         }
-
         imprime_stats(tempo_espera);
     }
 
@@ -153,9 +155,12 @@ public class base {
         int[] tempo_restante = restante.clone();
         int[] tempo_chegada = chegada.clone();
 
-        //implementar código do SJF preemptivo e não preemptivo
-        //...
-        //
+        //implementando SJF Não Preemptivo
+        int tempo = 0;
+
+        while(true){
+            break;
+        }
 
         imprime_stats(tempo_espera);
 
