@@ -137,6 +137,7 @@ public class base {
                 if(processoEmExecucao >= n_processos -1){
                     break;
                 }else{
+                    tempo++;
                     processoEmExecucao++;
                 }
             }else{
