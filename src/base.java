@@ -31,9 +31,8 @@ public class base {
 
         while(true) {
 
-            System.out.print("\nEscolha o argoritmo?: \n[1=FCFS \n2=SJF Preemptivo \n3=SJF Não Preemptivo  4=Prioridade Preemptivo 5=Prioridade Não Preemptivo  6=Round_Robin  7=Imprime lista de processos 8=Popular processos novamente 9=Sair]: ");
+            System.out.print("\nEscolha o argoritmo?: \n1=FCFS \n2=SJF Preemptivo \n3=SJF Não Preemptivo  \n4=Prioridade Preemptivo \n5=Prioridade Não Preemptivo  \n6=Round_Robin  \n7=Imprime lista de processos \n8=Popular processos novamente \n9=Sair]: ");
             alg =  teclado.nextInt();
-
 
             if (alg == 1) { //FCFS
                 FCFS(tempo_execucao, tempo_espera, tempo_restante, tempo_chegada);
@@ -99,8 +98,6 @@ public class base {
         }
     }
 
-
-
     public static void imprime_processos(int[] tempo_execucao, int[] tempo_espera, int[] tempo_restante, int[] tempo_chegada,  int []prioridade){
         //Imprime lista de processos
         for (int i = 0; i < n_processos; i++) {
@@ -111,31 +108,31 @@ public class base {
     public static void imprime_stats (int[] espera) {
         int[] tempo_espera = espera.clone();
         int tempoTotal = 0;
+
         for(int i = 0; i < n_processos; i++){
             tempoTotal += tempo_espera[i];
         }
-        System.out.println("Tempo total: " + tempoTotal + "Média de tempo: " + (tempoTotal / n_processos));
+        System.out.println("Tempo total: " + tempoTotal + " Média de tempo: " + (tempoTotal / n_processos));
     }
 
     public static void FCFS(int[] execucao, int[] espera, int[] restante, int[] chegada){
         int[] tempo_execucao = execucao.clone();
         int[] tempo_espera = espera.clone();
         int[] tempo_restante = restante.clone();
-        int[] tempo_chegada = chegada.clone();
-
-        // implementando
+        // int[] tempo_chegada = chegada.clone();
+        // implementando FCFS *********************************************
 
         int tempo = 0;
         int processoEmExecucao = 0;
 
-
         while(true){
             System.out.println("tempo[" + tempo +
-                    "] processo[ " + processoEmExecucao +
-                    "] restante: "
-                    + tempo_restante[processoEmExecucao]);
+                             "] processo[ " + processoEmExecucao +
+                             "] restante: " + tempo_restante[processoEmExecucao]);
+
             if(tempo_restante[processoEmExecucao] == tempo_execucao[processoEmExecucao])
                 tempo_espera[processoEmExecucao] = tempo;
+
             if(tempo_restante[processoEmExecucao] == 1){
                 if(processoEmExecucao >= n_processos -1){
                     break;
@@ -144,6 +141,7 @@ public class base {
                 }
             }else{
                 tempo_restante[processoEmExecucao]--;
+                tempo++;
             }
         }
         imprime_stats(tempo_espera);
