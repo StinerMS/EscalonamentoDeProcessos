@@ -6,7 +6,7 @@ public class SJFPreemptivo {
 
         int[] tempo_execucao = {1, 5, 4, 9};
         int[] tempo_chegada = {3, 9, 1, 8};
-        int[] prioridade = {11, 9, 9, 4};
+        //int[] prioridade = {11, 9, 9, 4};
         int[] tempo_espera = new int[n_processos];
         int[] tempo_restante = new int[n_processos];
 
@@ -22,6 +22,7 @@ public class SJFPreemptivo {
             int indice_menor_tempo_restante = -1;
             int menor_tempo_restante = Integer.MAX_VALUE;
 
+            // Escalonamento
             for (int i = 0; i < n_processos; i++) {
                 if (tempo_chegada[i] <= tempo_atual && tempo_restante[i] < menor_tempo_restante && tempo_restante[i] > 0) {
                     menor_tempo_restante = tempo_restante[i];
@@ -42,7 +43,6 @@ public class SJFPreemptivo {
                     tempo_espera[indice_processo_concluido] = tempo_atual - tempo_execucao[indice_processo_concluido] - tempo_chegada[indice_processo_concluido];
                 }
             }
-
         }
 
         double tempo_medio_espera = 0;

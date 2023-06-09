@@ -148,48 +148,139 @@ public class base {
         imprime_stats(tempo_espera);
     }
 
-    public static void SJF(boolean preemptivo, int[] execucao, int[] espera, int[] restante, int[] chegada){
+    public static void SJF(boolean preemptivo, int[] execucao, int[] espera, int[] restante, int[] chegada) {
         int[] tempo_execucao = execucao.clone();
         int[] tempo_espera = espera.clone();
         int[] tempo_restante = restante.clone();
         int[] tempo_chegada = chegada.clone();
 
-        //implementando SJF Não Preemptivo
         int tempo = 0;
+        int processosConcluidos = 0;
+        boolean[] processosConcluidosFlag = new boolean[n_processos];
 
-        while(true){
-            break;
+        while (processosConcluidos < n_processos) {
+            int menorTempoExecucao = MAXIMO_TEMPO_EXECUCAO;
+            int proximoProcesso = -1;
+
+            // Encontra o processo com o menor tempo de execução entre os processos que chegaram até o momento atual
+            for (int i = 0; i < n_processos; i++) {
+                if (!processosConcluidosFlag[i] && tempo_chegada[i] <= tempo && tempo_execucao[i] < menorTempoExecucao) {
+                    menorTempoExecucao = tempo_execucao[i];
+                    proximoProcesso = i;
+                }
+            }
+
+            if (proximoProcesso == -1) {
+                tempo++;
+                continue;
+            }
+
+            if (preemptivo) {
+                // Executa o processo por 1 unidade de tempo
+                tempo_restante[proximoProcesso]--;
+
+                if (tempo_restante[proximoProcesso] == 0) {
+                    tempo_espera[proximoProcesso] = tempo - tempo_chegada[proximoProcesso] - tempo_execucao[proximoProcesso] + 1;
+                    processosConcluidosFlag[proximoProcesso] = true;
+                    processosConcluidos++;
+                }
+            } else {
+                // Executa o processo até o final
+                tempo += tempo_execucao[proximoProcesso];
+                tempo_espera[proximoProcesso] = tempo - tempo_chegada[proximoProcesso] - tempo_execucao[proximoProcesso];
+                processosConcluidosFlag[proximoProcesso] = true;
+                processosConcluidos++;
+            }
+
+            tempo++;
         }
 
         imprime_stats(tempo_espera);
-
     }
 
-    public static void PRIORIDADE(boolean preemptivo, int[] execucao, int[] espera, int[] restante, int[] chegada, int[] prioridade){
+    public static void PRIORIDADE(boolean preemptivo, int[] execucao, int[] espera, int[] restante, int[] chegada, int[] prioridade) {
         int[] tempo_execucao = execucao.clone();
         int[] tempo_espera = espera.clone();
         int[] tempo_restante = restante.clone();
         int[] tempo_chegada = chegada.clone();
         int[] prioridade_temp = prioridade.clone();
 
-        //implementar código do Prioridade preemptivo e não preemptivo
-        //...
-        //
+        int n = execucao.length; // Número de processos
+
+        int tempo = 0; // Tempo atual
+        int processosConcluidos = 0; // Número de processos concluídos até agora
+
+        while (processosConcluidos < n) {
+            int processoAtual = -1;
+            int prioridadeMinima = Integer.MAX_VALUE;
+
+            // Encontra o próximo processo com a maior prioridade entre os processos que chegaram até o momento atual
+            for (int i = 0; i < n; i++) {
+                if (tempo_chegada[i] <= tempo && tempo_restante[i] > 0 && prioridade_temp[i] < prioridadeMinima) {
+                    processoAtual = i;
+                    prioridadeMinima = prioridade_temp[i];
+                }
+            }
+
+            if (processoAtual == -1) {
+                tempo++; // Não há processos para executar, incrementa o tempo
+                continue;
+            }
+
+            // Executa o processo atual
+            if (preemptivo) {
+                tempo_restante[processoAtual]--; // Executa uma unidade de tempo
+            } else {
+                tempo_restante[processoAtual] = 0; // Executa o processo até o fim
+            }
+
+            // Verifica se o processo foi concluído
+            if (tempo_restante[processoAtual] == 0) {
+                processosConcluidos++;
+
+                // Calcula o tempo de espera do processo concluído
+                tempo_espera[processoAtual] = tempo - tempo_chegada[processoAtual] - tempo_execucao[processoAtual];
+            }
+
+            tempo++; // Incrementa o tempo
+        }
 
         imprime_stats(tempo_espera);
-
     }
 
-    public static void Round_Robin(int[] execucao, int[] espera, int[] restante){
+    public static void Round_Robin(int[] execucao, int[] espera, int[] restante) {
         int[] tempo_execucao = execucao.clone();
         int[] tempo_espera = espera.clone();
         int[] tempo_restante = restante.clone();
 
+        int n = execucao.length; // Número de processos
 
-        //implementar código do Round-Robin
-        //...
-        //
+        int quantum = 2; // Tamanho do quantum
+        int tempo = 0; // Tempo atual
+        int processosConcluidos = 0; // Número de processos concluídos até agora
+
+        while (processosConcluidos < n) {
+            boolean processoConcluido = true;
+
+            for (int i = 0; i < n; i++) {
+                if (tempo_restante[i] > 0) {
+                    processoConcluido = false;
+
+                    if (tempo_restante[i] > quantum) {
+                        tempo += quantum; // Executa o quantum
+                        tempo_restante[i] -= quantum; // Reduz o tempo restante do processo
+                    } else {
+                        tempo += tempo_restante[i]; // Executa o tempo restante do processo
+                        tempo_espera[i] = tempo - tempo_execucao[i]; // Calcula o tempo de espera do processo concluído
+                        tempo_restante[i] = 0; // Define o tempo restante como zero, pois o processo foi concluído
+                        processosConcluidos++;
+                    }
+                }
+            }
+
+            if (processoConcluido)
+                tempo++; // Incrementa o tempo se nenhum processo foi executado
+        }
 
         imprime_stats(tempo_espera);
-    }
-}
+    }}
