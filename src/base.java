@@ -34,31 +34,31 @@ public class base {
             System.out.print("\nEscolha o argoritmo?: \n1=FCFS \n2=SJF Preemptivo \n3=SJF Não Preemptivo  \n4=Prioridade Preemptivo \n5=Prioridade Não Preemptivo  \n6=Round_Robin  \n7=Imprime lista de processos \n8=Popular processos novamente \n9=Sair]: ");
             alg =  teclado.nextInt();
 
-            if (alg == 1) { //FCFS
+            if (alg == 1) { // FCFS
                 FCFS(tempo_execucao, tempo_espera, tempo_restante, tempo_chegada);
             }
-            else if (alg == 2) { //SJF PREEMPTIVO
+            else if (alg == 2) { // SJF PREEMPTIVO
                 SJF(true, tempo_execucao, tempo_espera, tempo_restante, tempo_chegada);
             }
-            else if (alg == 3) { //SJF NÃO PREEMPTIVO
+            else if (alg == 3) { // SJF NÃO PREEMPTIVO
                 SJF(false, tempo_execucao, tempo_espera, tempo_restante, tempo_chegada);
 
             }
-            else if (alg == 4) { //PRIORIDADE PREEMPTIVO
+            else if (alg == 4) { // PRIORIDADE PREEMPTIVO
                 PRIORIDADE(true, tempo_execucao, tempo_espera, tempo_restante, tempo_chegada, prioridade);
             }
-            else if (alg == 5) { //PRIORIDADE NÃO PREEMPTIVO
+            else if (alg == 5) { // PRIORIDADE NÃO PREEMPTIVO
                 PRIORIDADE(false, tempo_execucao, tempo_espera, tempo_restante, tempo_chegada, prioridade);
 
             }
-            else if (alg == 6) { //Round_Robin
+            else if (alg == 6) { // Round_Robin
                 Round_Robin(tempo_execucao, tempo_espera, tempo_restante);
 
             }
-            else if (alg == 7) { //IMPRIME CONTEÚDO INICIAL DOS PROCESSOS
+            else if (alg == 7) { // IMPRIME CONTEÚDO INICIAL DOS PROCESSOS
                 imprime_processos(tempo_execucao, tempo_espera, tempo_restante, tempo_chegada, prioridade);
             }
-            else if (alg == 8) { //REATRIBUI VALORES INICIAIS
+            else if (alg == 8) { // REATRIBUI VALORES INICIAIS
                 popular_processos(tempo_execucao, tempo_espera, tempo_restante, tempo_chegada, prioridade);
                 imprime_processos(tempo_execucao, tempo_espera, tempo_restante, tempo_chegada, prioridade);
             }
@@ -120,7 +120,6 @@ public class base {
         int[] tempo_espera = espera.clone();
         int[] tempo_restante = restante.clone();
         // int[] tempo_chegada = chegada.clone();
-        // implementando FCFS *********************************************
 
         int tempo = 0;
         int processoEmExecucao = 0;
@@ -191,10 +190,8 @@ public class base {
                 processosConcluidosFlag[proximoProcesso] = true;
                 processosConcluidos++;
             }
-
             tempo++;
         }
-
         imprime_stats(tempo_espera);
     }
 
@@ -241,10 +238,8 @@ public class base {
                 // Calcula o tempo de espera do processo concluído
                 tempo_espera[processoAtual] = tempo - tempo_chegada[processoAtual] - tempo_execucao[processoAtual];
             }
-
             tempo++; // Incrementa o tempo
         }
-
         imprime_stats(tempo_espera);
     }
 
@@ -277,10 +272,8 @@ public class base {
                     }
                 }
             }
-
             if (processoConcluido)
                 tempo++; // Incrementa o tempo se nenhum processo foi executado
         }
-
         imprime_stats(tempo_espera);
     }}
